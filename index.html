@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#063e32">
+  <meta name="description" content="مسابقة عزنا بطبعنا: اجمع فريقك، اختر مجالاتك، وتنافسوا في معرفة تاريخ المملكة وثقافتها وإنجازاتها.">
+  <title>عزنا بطبعنا — ساحة التحدي</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='14' fill='%23063e32'/%3E%3Cpath d='M24 7l5 12 12 5-12 5-5 12-5-12-12-5 12-5z' fill='%23d4ea65'/%3E%3C/svg%3E">
+  <link rel="preload" href="assets/sky-regular.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="preload" href="assets/sky-bold.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="motion.css">
+  <link rel="stylesheet" href="competition.css">
+  <script src="customize.js" defer></script>
+  <script src="questions.js" defer></script>
+  <script src="game-engine.js" defer></script>
+  <script src="effects.js" defer></script>
+  <script src="round-clock.js" defer></script>
+  <script src="audio-controller.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body class="entrance-active">
+  <a class="skip-link" href="#main">انتقل إلى المسابقة</a>
+  <div class="page-texture" aria-hidden="true"></div>
+  <div class="ambient-stage" aria-hidden="true"><span class="ambient-orb orb-a"></span><span class="ambient-orb orb-b"></span><span class="ambient-orb orb-c"></span><span class="ambient-grid"></span></div>
+  <section id="entrance" class="entrance" aria-labelledby="entrance-title">
+    <button id="skip-entrance" class="entrance-skip">تخطّي المقدمة <span aria-hidden="true">←</span></button>
+    <div class="entrance-orbit" aria-hidden="true"><div class="orbit-track"></div><div class="orbit-track orbit-track-two"></div><div class="orbit-tile orbit-tile-0 atlas atlas-0"></div><div class="orbit-tile orbit-tile-1 atlas atlas-1"></div><div class="orbit-tile orbit-tile-2 atlas atlas-2"></div><div class="orbit-tile orbit-tile-3 atlas atlas-3"></div><div class="orbit-tile orbit-tile-4 atlas atlas-4"></div><div class="orbit-tile orbit-tile-5 atlas atlas-5"></div></div>
+    <div class="entrance-content"><p class="entrance-kicker">تحدّي اليوم الوطني السعودي</p><h1 id="entrance-title"><span class="entrance-word word-one">عزّنا</span><span class="entrance-word word-two">بطبعنا<span class="entrance-dot">.</span></span></h1><p class="entrance-subtitle">جاهزين نرفع الحماس؟</p><button id="enter-button" class="enter-button"><span class="enter-button-label">ادخل ساحة التحدّي</span><span class="enter-icon" aria-hidden="true">←</span></button><button id="entrance-audio-button" class="entrance-audio">تشغيل صوت المسابقة</button></div>
+    <button id="entrance-motion-button" class="entrance-motion" aria-pressed="false">إيقاف الحركة</button>
+    <div class="entrance-floor" aria-hidden="true"></div><p class="entrance-bottom">وطنٌ يجمعنا. وتحدٍّ يحمّسنا.</p>
+  </section>
+  <header class="site-header wrap institution-glass institution-glass-top">
+    <div class="institution-brand" aria-label="بيانات الجهة التعليمية">
+      <img class="moe-logo" src="assets/moe-logo-uploaded.png" alt="شعار وزارة التعليم">
+      <div class="institution-copy">
+        <span>الإدارة العامة للتعليم بمنطقة الباحة</span>
+        <strong>مجمع أروى بنت عبد المطلب</strong>
+      </div>
+    </div>
+    <div class="competition-nav-brand">
+      <button id="reopen-entrance" class="competition-brand" aria-label="عرض مقدمة المسابقة"><span>عزّنا</span><strong>بطبعنا.</strong></button>
+      <div class="header-title">مسابقة اليوم الوطني <span class="header-line" aria-hidden="true"></span> <span>ساحة التحدّي</span></div>
+    </div>
+    <nav class="header-actions" aria-label="خيارات المسابقة">
+      <button id="motion-button" class="motion-button" aria-pressed="false">إيقاف الحركة</button>
+      <button id="settings-button" class="icon-button" title="إعدادات المسابقة" aria-label="إعدادات المسابقة"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 7h16M4 17h16"/><circle cx="9" cy="7" r="3" fill="#063e32"/><circle cx="16" cy="17" r="3" fill="#063e32"/></svg></button>
+      <button id="help-button" class="quiet-button">طريقة اللعب <span aria-hidden="true">؟</span></button>
+      <button id="sound-button" class="icon-button" title="تشغيل الصوت" aria-label="تشغيل الصوت" aria-pressed="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path class="sound-waves" d="M15 8a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14"/><path class="sound-mute" d="m16 9 6 6m0-6-6 6"/></svg>
+      </button>
+      <button id="music-settings-button" class="icon-button music-settings-button" title="اختيار صوت المسابقة" aria-label="اختيار صوت المسابقة"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M9 18V5l12-2v13M9 9l12-2"/><ellipse cx="6" cy="18" rx="3" ry="3"/><ellipse cx="18" cy="16" rx="3" ry="3"/></svg></button>
+      <button id="fullscreen-button" class="icon-button" title="ملء الشاشة" aria-label="ملء الشاشة"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/></svg></button>
+    </nav>
+  </header>
+  <p id="custom-school-name" class="wrap custom-school-name" hidden></p>
+  <main id="main" class="wrap" tabindex="-1">
+    <section id="lobby" class="screen" aria-labelledby="lobby-title">
+      <div class="lobby-top">
+        <div class="hero">
+          <div class="eyebrow"><span class="mini-star" aria-hidden="true">✦</span> نعرفه. نعتزّ به. ونتنافس لأجله.</div>
+          <h1 id="lobby-title" tabindex="-1">عزّنا<br><span>بطبعنا<span class="title-dot">.</span></span></h1>
+          <p class="hero-copy">كلّنا نحب الوطن.<br>والتحدّي… مين يعرفه أكثر؟</p>
+          <div class="hero-stat"><strong id="total-questions">١١٩</strong><span>سؤالًا<br>عن وطننا</span><span class="stat-divider"></span><strong>٦</strong><span>مجالات<br>للمنافسة</span></div>
+          <div class="hero-art" aria-hidden="true">
+            <div class="art-tile art-purple atlas atlas-1"></div>
+            <div class="art-tile art-green atlas atlas-0"></div>
+            <div class="art-tile art-orange atlas atlas-3"></div>
+            <div class="art-tile art-cyan atlas atlas-4"></div>
+            <span class="art-seal">أصالة<br>وطموح</span>
+          </div>
+        </div>
+        <section class="setup-card" aria-labelledby="setup-title">
+          <div class="section-kicker"><span>٠١ / اجمع فريقك</span><span class="tiny-outline" aria-hidden="true">✦</span></div>
+          <h2 id="setup-title">من يدخل التحدّي؟</h2>
+          <fieldset class="team-fieldset"><legend>عدد الفرق</legend><div id="team-count" class="segmented"></div></fieldset>
+          <div class="names-label"><span>أسماء الفرق</span><span>اختر اسمًا يليق بالحماس</span></div>
+          <div id="team-names" class="team-names"></div>
+          <p id="setup-error" class="form-error" role="alert" hidden></p>
+          <button id="setup-timer-button" class="setup-timer-button"><span>وقت كل سؤال</span><strong id="setup-duration">٣٠ ثانية</strong><span aria-hidden="true">تعديل ←</span></button>
+          <div class="start-summary"><span id="selected-summary">التاريخ الوطني</span><span id="round-count">٢٠ سؤالًا</span></div>
+          <button id="start-button" class="primary-button"><span>يلا، نبدأ التحدّي</span><span class="button-arrow" aria-hidden="true">←</span></button>
+          <p class="setup-note">شاشة واحدة تجمعكم، والدور يتنقّل بين الفرق.</p>
+        </section>
+      </div>
+      <section class="domains-section" aria-labelledby="domains-title">
+        <div class="domains-heading"><div><span class="section-kicker">٠٢ / اختر ميدانك</span><h2 id="domains-title">اختاروا مجالات التحدّي</h2></div><div class="domain-selection-actions"><span id="selection-count" aria-live="polite">مجال واحد محدد</span><button id="select-all-domains" class="select-all-domains" aria-pressed="false">اختيار الكل</button></div></div>
+        <div id="domain-grid" class="domain-grid" role="group" aria-label="مجالات المسابقة، يمكن اختيار أكثر من مجال"></div>
+      </section>
+      <div class="bottom-ribbon" aria-hidden="true"><span>أصالة نفتخر بها</span><span>✦</span><span>معرفة نتشاركها</span><span>✦</span><span>طموح يجمعنا</span><span>✦</span><span>عزّنا بطبعنا</span></div>
+    </section>
+    <section id="arena" class="screen" aria-labelledby="question-title" hidden>
+      <div class="arena-heading"><button id="leave-button" class="quiet-button"><span aria-hidden="true">→</span> العودة للإعدادات</button><div class="arena-domain"><span id="arena-domain-image" class="arena-domain-art" aria-hidden="true"></span><span id="arena-domain-name"></span></div><button id="end-button" class="end-button">إنهاء المسابقة</button></div>
+      <div class="arena-layout">
+        <div class="play-area">
+          <div class="question-top"><div class="turn-label"><span id="active-team-symbol" class="active-team-symbol" aria-hidden="true"></span><div><span>الدور الآن</span><strong id="active-team"></strong></div></div><div class="question-meta"><div id="question-timer" class="question-timer" role="timer" aria-label="الوقت المتبقي للسؤال" aria-live="off"><span class="timer-ring"><strong id="timer-seconds">٣٠</strong></span><span id="timer-label">ثانية متبقية</span></div><div class="question-counter"><strong id="question-number">٠١</strong><span>/ <span id="question-total">٢٠</span></span></div></div></div>
+          <div class="question-progress" role="progressbar" aria-label="الأسئلة المكتملة" aria-valuemin="0" aria-valuemax="20" aria-valuenow="0"><span id="progress-fill"></span></div>
+          <div id="question-panel" class="question-panel"><div class="question-eyebrow"><span id="question-category">قدّها؟</span><span>نقطة لكل إجابة صحيحة</span></div><h1 id="question-title" tabindex="-1"></h1><div id="answer-options" class="answer-options"></div></div>
+          <div id="feedback" class="feedback" role="status" aria-live="polite" hidden></div>
+          <div class="question-bottom"><div class="next-question-copy"><span id="next-team-hint"></span><span id="auto-next-status" role="timer" aria-live="off" hidden></span></div><button id="next-button" class="primary-button" hidden><span>السؤال التالي</span><span aria-hidden="true">←</span></button><span id="answer-hint">تشاوروا، ثم اختاروا إجابتكم.</span></div>
+        </div>
+        <aside class="leaderboard" aria-labelledby="leaderboard-title"><div class="section-kicker">الحماس بالأرقام <span aria-hidden="true">↗</span></div><h2 id="leaderboard-title">لوحة المنافسة</h2><div id="live-scores"></div><div class="score-note"><span aria-hidden="true">✦</span><p>كل إجابة تفرق.<br>والحماس للآخر!</p></div></aside>
+      </div>
+    </section>
+    <section id="results" class="screen results-screen" aria-labelledby="results-title" hidden>
+      <div class="results-kicker"><span aria-hidden="true">✦</span> لكل تحدٍّ أبطاله <span aria-hidden="true">✦</span></div>
+      <div id="winner-emblem" class="winner-emblem" aria-hidden="true"></div><h1 id="results-title" tabindex="-1">عزّ التحدّي… لكم!</h1><p id="winner-announcement"></p>
+      <div id="podium" class="podium"></div><div id="results-list" class="results-list"></div><p id="results-summary" class="results-summary"></p>
+      <div class="results-actions"><button id="replay-button" class="primary-button"><span>نتحدّى من جديد</span><span aria-hidden="true">↻</span></button><button id="new-domain-button" class="secondary-button">اختيار مجال آخر</button></div>
+    </section>
+  </main>
+  <footer class="site-footer wrap institution-glass institution-glass-bottom">
+    <div class="footer-credits" aria-label="بيانات إعداد المسابقة">
+      <span><b>عمل الطالبة :</b> حنين عبدالرحمن صالح</span>
+      <span class="footer-class">أول ثانوي ب</span>
+      <span><b>رائدة النشاط :</b> هناء عبدالله</span>
+    </div>
+    <button id="terms-button" class="text-button footer-terms">شروط الاستخدام</button>
+  </footer>
+  <dialog id="help-dialog" aria-labelledby="help-title"><button class="dialog-close" data-close="help-dialog" aria-label="إغلاق">×</button><span class="dialog-kicker">ساحة التحدّي</span><h2 id="help-title">حماسها في جمعتكم.</h2><ol class="how-list"><li><span>١</span><div><strong>جهّزوا الفرق</strong><p>من فريقين إلى ستة فرق. اختاروا أسماءكم، ثم مجالًا واحدًا أو عدة مجالات للمنافسة. نصيب الفرق متساوٍ من أسئلة كل مجال.</p></div></li><li><span>٢</span><div><strong>تشاوروا واختاروا</strong><p>يظهر سؤال لكل فريق بالتناوب. كل إجابة صحيحة تمنح نقطة واحدة، وتظهر الإجابة الصحيحة بعد الاختيار.</p></div></li><li><span>٣</span><div><strong>خلّوا الحماس للآخر</strong><p>حدّدوا مدة السؤال من الإعدادات. بعد الإجابة أو انتهاء الوقت ننتقل تلقائيًا خلال ٥ ثوانٍ. يمكن إنهاء المسابقة في أي وقت لعرض الترتيب والنقاط. يتوقف المؤقت مؤقتًا عند فتح نافذة أو مغادرة الصفحة.</p></div></li></ol><button class="primary-button" data-close="help-dialog">واضحة، خلّنا نبدأ</button></dialog>
+  <dialog id="terms-dialog" aria-labelledby="terms-title"><button class="dialog-close" data-close="terms-dialog" aria-label="إغلاق">×</button><span class="dialog-kicker">قبل أن نبدأ</span><h2 id="terms-title">تعهد الاستخدام</h2><p class="terms-copy">أقر وأتعهد أمام الله أنني سأستخدم هذا الموقع للأغراض الشخصية فقط، ولن أستخدمه لأي غرض تجاري أو ربحي. كما أتعهد بعدم مشاركة رابط الموقع مع أي شخص آخر.</p><label class="consent-row"><input id="terms-consent" type="checkbox"><span>قرأت التعهد وأوافق عليه.</span></label><button id="accept-terms" class="primary-button" disabled>أوافق وأبدأ المسابقة</button></dialog>
+  <dialog id="leave-dialog" aria-labelledby="leave-title"><h2 id="leave-title">نرجع للإعدادات؟</h2><p>ستنتهي الجولة الحالية وتُصفّر نقاطها عند بدء تحدٍّ جديد.</p><div class="dialog-actions"><button class="secondary-button" data-close="leave-dialog">نكمل التحدّي</button><button id="confirm-leave" class="primary-button">العودة للإعدادات</button></div></dialog>
+  <dialog id="settings-dialog" aria-labelledby="settings-title"><button class="dialog-close" data-close="settings-dialog" aria-label="إغلاق">×</button><span class="dialog-kicker">على إيقاعكم</span><h2 id="settings-title">إعدادات المسابقة</h2><form id="settings-form"><label class="duration-label" for="question-duration">مدة كل سؤال بالثواني</label><div class="duration-input-row"><input id="question-duration" type="number" min="5" max="300" step="1" value="30" inputmode="numeric" required aria-describedby="duration-note"><span>ثانية</span></div><div class="duration-presets" role="group" aria-label="مدد مقترحة"><button type="button" data-duration="15">١٥ ثانية</button><button type="button" data-duration="30">٣٠ ثانية</button><button type="button" data-duration="60">٦٠ ثانية</button><button type="button" data-duration="90">٩٠ ثانية</button></div><p id="duration-note">اختر من ٥ إلى ٣٠٠ ثانية. تطبّق المدة الجديدة من السؤال التالي.</p><p class="settings-fixed">الانتقال بعد الإجابة تلقائي خلال <strong>٥ ثوانٍ</strong>.</p><button type="submit" class="primary-button">حفظ الإعدادات</button></form></dialog>
+  <dialog id="end-dialog" aria-labelledby="end-title"><h2 id="end-title">نعلن أبطال التحدّي؟</h2><p>ستُحفظ النقاط الحالية ويظهر ترتيب جميع الفرق. لن تُحتسب الأسئلة المتبقية.</p><div class="dialog-actions"><button class="secondary-button" data-close="end-dialog">نكمل التحدّي</button><button id="confirm-end" class="primary-button">إنهاء وعرض النتائج</button></div></dialog>
+  <dialog id="music-dialog" aria-labelledby="music-title"><button class="dialog-close" data-close="music-dialog" aria-label="إغلاق">×</button><span class="dialog-kicker">أجواء التحدّي</span><h2 id="music-title">صوت المسابقة</h2><p id="music-source-label">وطني الحبيب بدون موسيقى</p><div class="music-controls"><button id="music-play-button" class="primary-button">تشغيل الصوت</button><label class="audio-file-button">اختيار ملف صوتي<input id="audio-file" type="file" accept="audio/*,.m4a,.mp3,.wav,.aac,.ogg,.mp4"></label></div><button id="music-mute-button" class="audio-mute-button" aria-pressed="false">كتم الصوت</button><label id="volume-control" class="volume-control" for="music-volume"><span>مستوى الصوت</span><input id="music-volume" type="range" min="0" max="100" value="35"><output id="music-volume-output" for="music-volume">٣٥٪</output></label><p id="device-volume-note" class="device-volume-note" hidden>لضبط مستوى الصوت الحالي استخدم أزرار الصوت في جهازك. عند اختيار ملف صوتي من جهازك يمكنك ضبط مستواه هنا.</p><p id="music-status" class="music-status" role="status"></p><button id="reset-music" class="text-button">استخدام الصوت الافتراضي</button></dialog>
+  <audio id="background-music" src="assets/watani-alhabib-vocals.mp3" loop preload="none" playsinline></audio>
+  <div id="launch-sequence" class="launch-sequence" hidden role="status"><span class="launch-kicker">الفرق جاهزة…</span><strong id="launch-number">٣</strong><span id="launch-caption">الحماس يبدأ الآن</span><button id="skip-launch" class="launch-skip">ابدأ مباشرة</button></div>
+  <div id="answer-celebration" class="answer-celebration" aria-hidden="true" hidden><span class="celebration-ring ring-one"></span><span class="celebration-ring ring-two"></span><div id="celebration-emblem" class="celebration-emblem"></div><strong class="celebration-cheer">كفووو!</strong><span id="celebration-team"></span><span class="celebration-point">+١</span></div>
+  <canvas id="effects-canvas" aria-hidden="true"></canvas>
+  <div id="toast" class="toast" role="status" hidden></div><div id="celebration" aria-hidden="true"></div>
+  <noscript><div class="noscript-message">لتشغيل المسابقة، فعّل JavaScript في متصفحك.</div></noscript>
+</body>
+</html>
