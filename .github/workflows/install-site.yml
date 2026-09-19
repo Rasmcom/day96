@@ -1,0 +1,29 @@
+name: Install site bundle
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.site-bundle-trigger'
+
+permissions:
+  contents: write
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Unpack site bundle
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat .site_bundle/part-* > /tmp/site.b64
+          base64 -d /tmp/site.b64 > /tmp/site.tar.gz
+          tar -xzf /tmp/site.tar.gz -C .
+          rm -rf .site_bundle .site-bundle-trigger .github/workflows/install-site.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Deploy updated Day 96 site"
+          git push
